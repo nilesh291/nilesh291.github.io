@@ -1,0 +1,78 @@
+:root{--dim:#9a9a9a;--line:rgba(255,255,255,.22);--glass:rgba(10,10,10,.34)}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:#000;color:#fff;font-family:"Cinzel","Times New Roman",serif;overflow-x:hidden;cursor:crosshair}
+/* ===== BACKGROUND ===== */
+#bg{position:fixed;inset:0;overflow:hidden;z-index:0;background:radial-gradient(ellipse at 50% 55%,#2a2a2a 0%,#000 65%)}
+#stage{position:absolute;left:50%;top:0;width:min(1100px,150vh);height:125vh;transform:translate(-50%,0);will-change:transform}
+/* >>> YOUR IMAGE: put it at assets/yhwach.jpg (or change the name below) <<< */
+#king{position:absolute;inset:0;background:url("yhwach.jpg") center/contain no-repeat;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 55%,transparent 82%);mask-image:radial-gradient(ellipse at 50% 50%,#000 55%,transparent 82%);filter:grayscale(1) contrast(1.15);animation:breathe 7s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.025) translateY(-6px);filter:grayscale(1) contrast(1.3) brightness(1.15)}}
+#aura{position:absolute;left:50%;top:42%;width:70%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 62%);animation:pulse 5s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes pulse{50%{transform:scale(1.25);opacity:.45}}
+.fog{position:absolute;inset:-20%;background:radial-gradient(40% 25% at 30% 60%,rgba(255,255,255,.10),transparent),radial-gradient(35% 22% at 75% 40%,rgba(255,255,255,.08),transparent);animation:drift 22s linear infinite alternate}
+.fog.b{animation-duration:34s;animation-direction:alternate-reverse;opacity:.7}
+@keyframes drift{to{transform:translateX(9%) translateY(-4%) scale(1.1)}}
+#fx{position:absolute;inset:0;width:100%;height:100%}
+#vig{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.85) 100%)}
+#grain{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.07;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='.9'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");animation:grain .6s steps(4) infinite}
+@keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-2%)}}
+/* ===== CONTENT ===== */
+main{position:relative;z-index:5}
+.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:2rem}
+.hero h1{
+  font-size:clamp(2.6rem,10vw,8rem);
+  letter-spacing:.18em;
+  font-weight:900;
+  color:#fff;
+
+  /* black outline */
+  -webkit-text-stroke:6px #000;
+  paint-order:stroke fill;
+
+  /* backup outline for older browsers, plus a dark halo and the white glow */
+  text-shadow:
+    -2px -2px 0 #000, 2px -2px 0 #000,
+    -2px  2px 0 #000, 2px  2px 0 #000,
+    0 0 12px rgba(0,0,0,.9),
+    0 0 30px rgba(255,255,255,.35);
+
+  animation:flick 6s infinite;   /* unchanged */
+}
+.hero p{letter-spacing:.5em;color:var(--dim);margin-top:1rem;font-size:clamp(.7rem,2vw,1rem);text-transform:uppercase}
+@keyframes flick{0%,92%,100%{opacity:1}94%{opacity:.3}96%{opacity:1}98%{opacity:.5}}
+.scroll{margin-top:3rem;display:inline-block;width:26px;height:44px;border:2px solid #fff;border-radius:20px;position:relative}
+.scroll::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;background:#fff;border-radius:2px;translate:-50%;animation:wheel 1.6s infinite}
+@keyframes wheel{to{transform:translateY(16px);opacity:0}}
+.lane{display:flex;padding:6vh 6vw}
+.lane:nth-of-type(odd){justify-content:flex-start}
+.lane:nth-of-type(even){justify-content:flex-end}
+.card{width:min(520px,100%);padding:2rem;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(5px) grayscale(1);-webkit-backdrop-filter:blur(5px) grayscale(1);position:relative;opacity:0;transform:translateX(var(--from)) rotate(var(--rot)) scale(.92);transition:opacity 1s,transform 1s cubic-bezier(.2,.8,.2,1),box-shadow .4s,border-color .4s;clip-path:polygon(0 0,calc(100% - 28px) 0,100% 28px,100% 100%,28px 100%,0 calc(100% - 28px))}
+.lane:nth-of-type(odd) .card{--from:-80px;--rot:-2deg}
+.lane:nth-of-type(even) .card{--from:80px;--rot:2deg}
+.card.in{opacity:1;transform:none}
+.card:hover{border-color:#fff;box-shadow:0 0 50px rgba(255,255,255,.25),inset 0 0 40px rgba(255,255,255,.07);transform:translateY(-8px) scale(1.02)}
+.card::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);animation:sheen 6s infinite}
+@keyframes sheen{40%,100%{left:170%}}
+.num{font-size:.75rem;letter-spacing:.4em;color:var(--dim)}
+h2{font-size:1.7rem;letter-spacing:.2em;margin:.4rem 0 1rem;text-transform:uppercase}
+p,li{font-family:Georgia,serif;line-height:1.7;color:#ddd}
+ul{list-style:none;padding:0}
+li{padding:.35rem 0;border-bottom:1px solid var(--line)}
+li b{color:#fff;font-family:"Cinzel",serif;letter-spacing:.1em}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.tags span{border:1px solid #fff;padding:.3rem .8rem;font-size:.8rem;letter-spacing:.15em;transition:.3s;font-family:"Cinzel",serif}
+.tags span:hover{background:#fff;color:#000;transform:skewX(-10deg)}
+.bar{margin:.7rem 0}.bar div{height:4px;background:var(--line);margin-top:.3rem}
+.bar i{display:block;height:100%;width:0;background:#fff;box-shadow:0 0 12px #fff;transition:width 1.6s .4s cubic-bezier(.2,.8,.2,1)}
+.in .bar i{width:var(--w)}
+.profile{display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap}
+.photo{width:130px;height:160px;border:2px solid #fff;background:#111;filter:grayscale(1);clip-path:polygon(0 0,100% 0,100% 85%,85% 100%,0 100%);transition:.4s;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo:hover{filter:grayscale(0);transform:scale(1.05) rotate(-2deg)}
+a{color:#fff}
+.links a{display:inline-block;margin:.3rem .6rem .3rem 0;padding:.5rem 1.1rem;border:1px solid #fff;text-decoration:none;letter-spacing:.2em;font-size:.8rem;transition:.3s;font-family:"Cinzel",serif}
+.links a:hover{background:#fff;color:#000;box-shadow:0 0 25px #fff}
+footer{text-align:center;padding:4rem 1rem 6rem;color:var(--dim);letter-spacing:.3em;font-size:.7rem}
+@media(max-width:700px){.lane{justify-content:center!important;padding:4vh 4vw}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
